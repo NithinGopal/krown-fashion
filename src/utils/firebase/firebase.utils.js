@@ -20,8 +20,9 @@ import {
     signInWithRedirect,                                                         //? To sign in by redirecting to the sign-in page
     signInWithPopup,                                                            //? launches a popup window to sign in with google accounts
     GoogleAuthProvider,                                                         //? to authenticate users with their google accounts.  
+    createUserWithEmailAndPassword
 } from 'firebase/auth'
-import { useReducer } from 'react';
+
 
 //! Your web app's Firebase configuration
 const firebaseConfig = {                                                        //$ below code is copied from firebase > project settings > web apps > config tab
@@ -36,46 +37,55 @@ const firebaseConfig = {                                                        
 //@ Initialize Firebase
 const app = initializeApp(firebaseConfig);                                      //? fn. runs the above config file to connect to the backend
 
+//@ initialize database services
+export const db = getFirestore()                                                //? initializes database services
+
 //! Google Authentication services setup // signing with google auth
 //@ initialize auth services
 export const auth = getAuth()                                                   //? initializes authentication services
 
-const provider = new GoogleAuthProvider();                                      //? its a class.
-provider.setCustomParameters({
+//@ user authentication googleProviders // can add more such as facebook auth
+const googleProvider = new GoogleAuthProvider();                                      //? its a class.
+googleProvider.setCustomParameters({
     prompt: "select_account"                                                    //? extra info to send along with auth request
 });
 
+//@ user authentications
+export const signInWithGooglePopup = () => signInWithPopup(auth,googleProvider)             //? launches a popup window to sign in with google accounts
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider)      //? redirects to a diff google auth page onclick
 
-export const signInWithGooglePopup = () => signInWithPopup(auth,provider)       //? launches a popup window to sign in with google accounts
-
-//! Database services setup
-//@ initialize database services
-export const db = getFirestore()                                                //? initializes database services
-
-export const createUserDocumentFromAuth = async (userAuth) => {                 
-    const userDocRef = doc(db, 'users', userAuth.uid);                          //? doc(*database name*, *collection name*, *doc name*) // fetches the doc from collection 
+//@ creating 'users' collection in the db or checking if a user exists in it already
+export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {                 
+    const userDocRef = doc(db, 'users', userAuth.uid);                          //? doc(*database name*, *collection name*, *doc name*) // fetches the doc from 'users' collection 
     console.log(userDocRef);
 
     const userSnapshot = await getDoc(userDocRef)                               //? fetches data from the above fetched doc
     console.log(userSnapshot.exists());                                         //? tells if the fetched data exists in the db or not // false
     
 //@ if user data does not exist
-//@ create / set the document with the data from userAuth in my collection
     if(!userSnapshot.exists()) {
-        const { displayName, email } = userAuth;
-        const createdAt = new Date();
+        const { displayName, email } = userAuth;                                //? takes displayName & email from userAuth i.e data from either sign-up or sign-in forms
+        const createdAt = new Date();                                           //? adds additional date of creation data
 
+        //@ create / set the document with the data from userAuth in my collection
         try {
-            await setDoc(userDocRef, {
+            await setDoc(userDocRef, {                                          //? creates a document in the 'users' collection with given data values
                 displayName,
                 email,
                 createdAt,
+                ...additionalInformation,
             });
         } catch (error) {
-            console.log('error crating user', error.message);
+            console.log('error creating user', error.message);
         }
     }
 
 //@ check if user data exists
-    return userDocRef;
+    return userDocRef;                                                          //? returns a document in the 'users' collection 
+};
+
+export const createAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+
+    return await createUserWithEmailAndPassword(auth, email, password);
 }
