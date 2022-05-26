@@ -2,13 +2,11 @@
 
 import './button.styles.scss'
 
-
-//@ default button
-//@ inverted button
-//@ google sign in button
-
-const BUTTON_TYPE_CLASSES = {
+const BUTTON_TYPE_CLASSES = {                                                   //? selects a class based on type given in the <Button />
+    //@ default button
+    //@ google sign in button
     google : 'google-sign-in',
+    //@ inverted button
     inverted : 'inverted'
 }
 

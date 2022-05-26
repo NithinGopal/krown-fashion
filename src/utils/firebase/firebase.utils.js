@@ -17,10 +17,11 @@ import {                                                                        
 //! authentication serivces imported from firebase/auth
 import {
     getAuth,                                                                    //? initializes authentication services
-    signInWithRedirect,                                                         //? To sign in by redirecting to the sign-in page
+    signInWithRedirect,                                                         //? To sign in by redirecting to the signin page
     signInWithPopup,                                                            //? launches a popup window to sign in with google accounts
     GoogleAuthProvider,                                                         //? to authenticate users with their google accounts.  
-    createUserWithEmailAndPassword
+    createUserWithEmailAndPassword,                                              //? to create a user cred with email and password
+    signInWithEmailAndPassword,                                                 //? to sign in with email and password    
 } from 'firebase/auth'
 
 
@@ -64,7 +65,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     
 //@ if user data does not exist
     if(!userSnapshot.exists()) {
-        const { displayName, email } = userAuth;                                //? takes displayName & email from userAuth i.e data from either sign-up or sign-in forms
+        const { displayName, email } = userAuth;                                //? takes displayName & email from userAuth i.e data from either sign-up or signin forms
         const createdAt = new Date();                                           //? adds additional date of creation data
 
         //@ create / set the document with the data from userAuth in my collection
@@ -84,8 +85,16 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     return userDocRef;                                                          //? returns a document in the 'users' collection 
 };
 
+//@ sign up with email and password
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
 
-    return await createUserWithEmailAndPassword(auth, email, password);
+    return await createUserWithEmailAndPassword(auth, email, password);         //? takes email & password, & makes cred with auth function
+}
+
+//@ sign in with email and password
+export const signInAuthUserWithEmailAndPassword = async (email, password) => {
+    if (!email || !password) return;
+
+    return await signInWithEmailAndPassword(auth, email, password);         //? takes email & password, & makes cred with auth function
 }
