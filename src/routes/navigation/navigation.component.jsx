@@ -4,13 +4,18 @@ import { Fragment, useContext } from 'react';                               //? 
 import { Outlet,                                                            //? allows nested UI to show up when child routes are rendered, If the parent route matched exactly
                Link } from 'react-router-dom';                              //? Link is the react equivalent of anchor tag
 
+import CartIcon from '../../components/cart-icon/cart-icon.component';
+import CartDropdown from '../../components/cart-dropdown/cart-dropdown.component'
+
 import { ReactComponent as CrwnLogo } from '../../assets/crown.svg';        //? importing logo svg as a react component.
 import { UserContext } from '../../contexts/user.context';                  //? context component
+import { CartContext } from '../../contexts/cart.context';
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 import './navigation.styles.scss';                                          //? nav-bar style sheet
 
 const Navigation = () => {
   const { currentUser, setCurrentUser } = useContext(UserContext);            //? gets the updated actual value of currentUser -- value of 'user'
+  const { isCartOpen } = useContext(CartContext);
   //console.log(currentUser)                                                  //? UserImpl {providerId: 'firebase', p....
   
   // const signOutHandler = async () => {
@@ -41,7 +46,9 @@ const Navigation = () => {
                 SIGN IN
                 </Link>
               )}
+              <CartIcon />
           </div>
+          {isCartOpen && <CartDropdown />}
         </div>
         <Outlet />
       </Fragment>
