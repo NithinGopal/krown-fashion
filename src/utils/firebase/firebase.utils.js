@@ -22,6 +22,8 @@ import {
     GoogleAuthProvider,                                                         //? to authenticate users with their google accounts.  
     createUserWithEmailAndPassword,                                              //? to create a user cred with email and password
     signInWithEmailAndPassword,                                                 //? to sign in with email and password    
+    signOut,
+    onAuthStateChanged,
 } from 'firebase/auth'
 
 
@@ -45,8 +47,8 @@ export const db = getFirestore()                                                
 //@ initialize auth services
 export const auth = getAuth()                                                   //? initializes authentication services
 
-//@ user authentication googleProviders // can add more such as facebook auth
-const googleProvider = new GoogleAuthProvider();                                      //? its a class.
+//@ user authentication googleProviders // can add more such as facebook/reddit/github auth
+const googleProvider = new GoogleAuthProvider();                                //? its a class.
 googleProvider.setCustomParameters({
     prompt: "select_account"                                                    //? extra info to send along with auth request
 });
@@ -96,5 +98,11 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
 export const signInAuthUserWithEmailAndPassword = async (email, password) => {
     if (!email || !password) return;
 
-    return await signInWithEmailAndPassword(auth, email, password);         //? takes email & password, & makes cred with auth function
+    return await signInWithEmailAndPassword(auth, email, password);             //? takes email & password, & makes cred with auth function
 }
+
+//@ Sign out a user
+export const signOutUser = async () => await signOut(auth);
+
+//@ observes the auth state changes // runs callback function whenever user signs in or out
+export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback)

@@ -1,7 +1,8 @@
-import './category-item.styles.scss';
+//! catagory item card component
+import './category-item.styles.scss';                                   //? style sheet
 
 const CategoryItem = ({ category }) => {
-    const { imageUrl, title } = category;
+    const { imageUrl, title } = category;                               //? takes imageUrl and title from category object
     return (
         <div className="category-container">
             <div 
