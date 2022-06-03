@@ -3,7 +3,7 @@
 import './cart-item.styles.scss'                                    //?  Styles sheet
 
 const CartItem = ({cartItem}) => {
-    const { name, imageUrl, price, quantity } = cartItem;
+    const { name, imageUrl, price, quantity } = cartItem;           //? takes the values from cartContext in cart dropdown component
     return (
         <div className='cart-item-container'>
             <img src={imageUrl} alt={`${name}`} />

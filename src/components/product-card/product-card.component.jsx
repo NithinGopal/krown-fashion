@@ -12,9 +12,9 @@ const ProductCard = ({ product }) => {                              //? 'product
 
     const { name, price, imageUrl } = product;                      //? destructuring from returned product value
 
-    const { addItemToCart } = useContext(CartContext);
+    const { addItemToCart } = useContext(CartContext);              //? gets addItemToCart fn. from cartContext
     
-    const addProductToCart = () => addItemToCart(product);
+    const addProductToCart = () => addItemToCart(product);          //? updates cart context when 'Add to cart' button is clicked
 
     return (
         <div className='product-card-container'>

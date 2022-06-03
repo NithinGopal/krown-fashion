@@ -9,9 +9,9 @@ import { CartContext } from '../../contexts/cart.context';                      
 import './cart-icon.styles.scss'                                                        //? style sheet
 
 const CartIcon = () => {
-    const { isCartOpen, setIsCartOpen, cartCount} = useContext(CartContext);                       //? isCartOpen is given CartContext value as default value.
+    const { isCartOpen, setIsCartOpen, cartCount} = useContext(CartContext);            //? isCartOpen, cartCount takes default values from CartContext
 
-    const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen);                          //? a toggle fn. 
+    const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen);                          //? a toggle fn. for the dropdown feature 
 
     return (
         <div className='cart-icon-container' onClick={toggleIsCartOpen}>

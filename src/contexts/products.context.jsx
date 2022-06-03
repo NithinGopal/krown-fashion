@@ -1,3 +1,5 @@
+//! context functions related to product components
+
 import { createContext, useState } from "react";                                //? context and state hooks
 
 import PRODUCTS from '../shopData.json';                                        //? JSON file with Product related info
