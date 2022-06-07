@@ -1,21 +1,25 @@
 //! FormInput component
 
-import './form-input.styles.scss';                                              //? styles sheet
+//# styles sheet
+//import './form-input.styles.jsx';                                              
+import { FormInputLabel, Input, Group} from './form-input.styles'               //? stylised component
 
 const FormInput = ({ label, ...otherProps }) => {
     return (
-        <div className="group">
+        <Group>
             {/* //$ {...otherProps} is a spread operator that holds input element's attributes if any */}
-            <input className="form-input" {...otherProps}/>
+            <Input {...otherProps}/>
             {/* //$ label && means, if label exists, run below code  */}
             { label && (
-                <label 
-                    className={`${otherProps.value.length ? 'shrink':null}
-                    form-input-label`}>
+                <FormInputLabel 
+                    shrink={otherProps.value.length}
+                    // className={`${otherProps.value.length ? 'shrink':null}
+                    // form-input-label`}
+                >
                     {label}
-                </label>
+                </FormInputLabel>
             )}
-        </div>
+        </Group>
     );
 };
 

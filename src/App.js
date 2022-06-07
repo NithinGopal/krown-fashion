@@ -15,7 +15,7 @@ const App = () => {
         {/* Home page */}
         <Route index={true} element={ <Home /> } />
         {/* Shop page  */}
-        <Route path='shop' element={ <Shop /> } />
+        <Route path='shop/*' element={ <Shop /> } />
         {/* Authentication page -- Sign in and Sign out  */}
         <Route path='auth' element={ <Authentication /> } />
         {/* Checkout page */}

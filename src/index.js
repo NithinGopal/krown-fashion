@@ -4,9 +4,10 @@ import { BrowserRouter } from 'react-router-dom';                           //? 
 
 import './index.scss';
 import App from './App';
-import { UserProvider } from './contexts/user.context';                     //? functional component to subscribe to changes
-import { ProductsProvider } from './contexts/products.context';
-import { CartProvider } from './contexts/cart.context';
+import { UserProvider } from './contexts/user.context';                     //? context component for user related context
+// import { ProductsProvider } from './contexts/products.context';
+import { CategoriesProvider } from './contexts/categories.context';         //? context component for products/categories related context
+import { CartProvider } from './contexts/cart.context';                     //? context component for cart related context
 
 import reportWebVitals from './reportWebVitals';
 
@@ -15,11 +16,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <UserProvider>
-        <ProductsProvider>
+        <CategoriesProvider>
           <CartProvider>
             <App />
           </CartProvider>
-        </ProductsProvider>
+        </CategoriesProvider>
       </UserProvider>
     </BrowserRouter>
   </React.StrictMode>

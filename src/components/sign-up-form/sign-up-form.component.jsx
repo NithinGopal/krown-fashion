@@ -8,7 +8,9 @@ import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from "
 //# context components imports
 //import { UserContext } from "../../contexts/user.context";                                     //? returns an object   
 
-import './sign-up-form.styles.scss'
+//# style sheet
+//import './sign-up-form.styles.jsx'
+import { SignUpContainer } from './sign-up-form.styles'                                         //? stylised components
 
 //@ define the default empty input values for the form
 const defaultFormFields = {
@@ -68,7 +70,7 @@ const SignUpForm = () => {
     }
 
     return (
-        <div className="sign-up-container">
+        <SignUpContainer>
             <h2>Don't have an account?</h2>
             <span>Sign up with your email and password</span>
             <form onSubmit={handleSubmit}>
@@ -82,7 +84,7 @@ const SignUpForm = () => {
 
                 <Button type="submit">Sign Up</Button>
             </form>
-        </div>
+        </SignUpContainer>
     );
 };
 

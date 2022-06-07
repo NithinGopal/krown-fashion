@@ -22,7 +22,7 @@ export const UserProvider = ({children}) => {                                   
 
     useEffect(() => {                                                                           //? runs only once when the app mounts
         const unsubscribe = onAuthStateChangedListener ((user) => {
-            console.log(user);
+            //console.log(user);
             if (user) {
               createUserDocumentFromAuth(user);                                        //? creates user doc in db and gets the doc with authenticated user details.
             }

@@ -1,21 +1,20 @@
-import { useContext } from 'react';                                                     //? react context hook
+import { Routes, Route } from 'react-router-dom';
 
-import { ProductsContext } from '../../contexts/products.context';                      //? Products context
-import ProductCard from '../../components/product-card/product-card.component';         //? Product card component
-import './shop.styles.scss'                                                             //? styles sheet
-//import SHOP_DATA from '../../shopData.json';
+import CategoriesPreview from '../categories-preview/categories-preview.component';             //? categories preview component
+import Category from '../category/category.component';                                          //? category component that displays products category wise
+
+//# styles sheet
+//import './shop.styles.jsx'                                                                     
+import { ProductsContainer } from './shop.styles'                                               //? stylised components
 
 const Shop = () => {
-    const { products } = useContext(ProductsContext);                                   //? gets current products value from ProductsContext
-    
-    //@ builds a product card with each returned current products value from ProductsContext
     return (
-        <div className='products-container'>
-            {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-            ))}
-        </div>
-    );
+        <Routes>
+            <Route index element={<CategoriesPreview />} />
+            {/* //@ displays products when categories title link is clicked  */}
+            <Route path=':category' element={<Category />} />
+        </Routes>
+    );    
 };
 
 export default Shop;

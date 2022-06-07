@@ -2,11 +2,13 @@
 
 import { useContext } from 'react';                                                     //? Context hook
 
-import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';         //? Cart Icon file
+//import { ReactComponent as ShoppingIcon } from '../../assets/shopping-bag.svg';         //? Cart Icon file
 
 import { CartContext } from '../../contexts/cart.context';                              //? Cart context component
 
-import './cart-icon.styles.scss'                                                        //? style sheet
+//# style sheet
+//import './cart-icon.styles.jsx'                                                        
+import { ShoppingIcon, CartIconContainer, ItemCount } from './cart-icon.styles'         //? stylised components
 
 const CartIcon = () => {
     const { isCartOpen, setIsCartOpen, cartCount} = useContext(CartContext);            //? isCartOpen, cartCount takes default values from CartContext
@@ -14,10 +16,10 @@ const CartIcon = () => {
     const toggleIsCartOpen = () => setIsCartOpen(!isCartOpen);                          //? a toggle fn. for the dropdown feature 
 
     return (
-        <div className='cart-icon-container' onClick={toggleIsCartOpen}>
+        <CartIconContainer onClick={toggleIsCartOpen}>
             <ShoppingIcon className='shopping-icon' />
-            <span className='item-count'>{cartCount}</span>
-        </div>
+            <ItemCount>{cartCount}</ItemCount>
+        </CartIconContainer>
     );
 };
 

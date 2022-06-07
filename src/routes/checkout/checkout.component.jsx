@@ -5,35 +5,37 @@ import { CartContext } from '../../contexts/cart.context';                      
 
 import CheckoutItem from '../../components/checkout-item/checkout-item.component';          //? Check out items component
 
-import './checkout.styles.scss'                                                             //? style sheet
+//# style sheet
+//import './checkout.styles.jsx'                                                             
+import { CheckoutContainer, CheckoutHeader, HeaderBlock, Total } from './checkout.styles'   //? stylised components
 
 const Checkout = () => {
     const { cartItems, cartTotal } = useContext(CartContext);                               //? gets cart items and cart total from updated cart context
     
     return (
-        <div className='checkout-container'>
+        <CheckoutContainer>
             {/* Header row */}
-            <div className='checkout-header'>
-                <div className='header-block'>
+            <CheckoutHeader>
+                <HeaderBlock>
                     <span>Product</span>
-                </div>
+                </HeaderBlock>
 
-                <div className='header-block'>
+                <HeaderBlock>
                     <span>Description</span>
-                </div>
+                </HeaderBlock>
 
-                <div className='header-block'>
+                <HeaderBlock>
                     <span>Quantity</span>
-                </div>
+                </HeaderBlock>
 
-                <div className='header-block'>
+                <HeaderBlock>
                     <span>Price</span>
-                </div>
+                </HeaderBlock>
 
-                <div className='header-block'>
+                <HeaderBlock>
                     <span>Remove</span>
-                </div>
-            </div>
+                </HeaderBlock>
+            </CheckoutHeader>
             {/* cart items displayed in the checkout */}
             {cartItems.map(cartItem => {
                 return (
@@ -41,8 +43,8 @@ const Checkout = () => {
                 )
             })
             }
-            <span className='total'>Total :${cartTotal}</span>
-        </div>
+            <Total>Total :${cartTotal}</Total>
+        </CheckoutContainer>
     );
 };
 

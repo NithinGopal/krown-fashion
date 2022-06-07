@@ -1,23 +1,33 @@
 //! Building buttons for multiple uses
 
-import './button.styles.scss'
+//# Style sheet
+//import './button.styles.scss'
+import { BaseButton, GoogleSignInButton, InvertedButton } from "./button.styles";      //? stylised components
 
-const BUTTON_TYPE_CLASSES = {                                                   //? selects a class based on type given in the <Button />
+export const BUTTON_TYPE_CLASSES = {                                                   //? selects a class based on type given in the <Button />
     //@ default button
+    base: 'base',
     //@ google sign in button
     google : 'google-sign-in',
     //@ inverted button
     inverted : 'inverted'
-}
+};
+
+//@ assigns selected stylised component based on class selected
+const getButton = (buttonType = BUTTON_TYPE_CLASSES.base) => (                        //? default button is base button  
+    {
+        [BUTTON_TYPE_CLASSES.base]: BaseButton,
+        [BUTTON_TYPE_CLASSES.google]: GoogleSignInButton,
+        [BUTTON_TYPE_CLASSES.inverted]: InvertedButton
+    }[buttonType]
+);
 
 const Button = ({ children, buttonType, ...otherProps }) => {
+    const CustomButton = getButton(buttonType);
     return (
-        <button 
-            className={`button-container ${BUTTON_TYPE_CLASSES[buttonType]}`}
-            {...otherProps}
-        >
+        <CustomButton {...otherProps}>
             {children}
-        </button>
+        </CustomButton>
     );
 };
 

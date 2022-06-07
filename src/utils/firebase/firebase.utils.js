@@ -6,10 +6,13 @@ import {                                                                        
     getFirestore,                                                               //? initializes database services
     doc,                                                                        //? fetch docs from collection in a database
     getDoc, setDoc,                                                             //? fetches a single doc's data filtered by cond. in doc()
-    //collection, //getDocs,                                                    //? to get the data from collections
+    collection,                                                                 //? gets access to collections
+    writeBatch,                                                                 //$  used to perform multiple writes as a single atomic unit.
+    getDocs,                                                                    //? to get the data from collections
+    query,                                                                      //? query() filters & fetches specific documents set by a condition
+    //where,                                                                    //? query() filters & fetches specific documents set by where() and orderBy() fn.
     //onSnapshot,                                                               //? get real time data whenever a change happens
     //addDoc, deleteDoc,                                                        //? to add, delete, and fetch docs from database
-    //query, where,                                                             //? query() filters & fetches specific documents set by where() and orderBy() fn.
     //orderBy, serverTimestamp,                                                 //? orderBy() to order data, serverTimestamp is to issue timestamp
     //updateDoc,                                                                //? updates the doc with the given condition
 } from 'firebase/firestore'
@@ -42,6 +45,42 @@ const app = initializeApp(firebaseConfig);                                      
 
 //@ initialize database services
 export const db = getFirestore()                                                //? initializes database services
+
+//! Upload or add SHOP DATA into the firestore db
+//@ create and/or add documents to collections
+export const addCollectionAndDocuments = 
+                 async (
+                        collectionKey,                                          //? is the documents or objects to add to the above collection 
+                        objectsToAdd                                            //? is the title of the collections viz. 'users' or 'categories'
+                        ) => {
+                            const collectionRef = collection(db, collectionKey);                    //? creates and calls a collection from db 
+                            const batch = writeBatch(db);                                           //$  used to perform multiple writes as a single atomic unit.
+
+                            objectsToAdd.forEach((object) => {
+                            const docRef = doc(collectionRef, object.title.toLowerCase());          //? creates and calls given document name
+                            batch.set(docRef, object);                                              //? writes each given object into the collection in db
+                            });
+
+                            await batch.commit();                                                   //? commits the batch 
+                            console.log('done');
+                            }
+
+//! get shop data
+//@ get categories and documents from db
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories');
+
+    const q = query(collectionRef);                                                                 //? filters all documents in db and finds 'categories' collection
+    const querySnapshot = await getDocs(q);                                                         //? gets documents inside 'categories' collection
+
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {                           //? adds acquired docs to categoryMap object
+        const { title, items } = docSnapshot.data();                                                //? gets title & items data from current object
+        acc[title.toLowerCase()] = items;                                                           //? adds current items to current title
+        return acc;
+    }, {});
+    
+    return categoryMap;
+}
 
 //! Google Authentication services setup // signing with google auth
 //@ initialize auth services

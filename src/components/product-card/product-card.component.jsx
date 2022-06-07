@@ -2,11 +2,13 @@
 
 import { useContext } from 'react';
 
-import { CartContext } from '../../contexts/cart.context';
+import { CartContext } from '../../contexts/cart.context';          //? context component for cart related context
 
-import './product-card.styles.scss'                                 //? Styles sheet
+//# Styles sheet
+//import './product-card.styles.jsx'                                 
+import { ProductCardContainer, Footer, Name, Price } from './product-card.styles'
 
-import Button from '../button/button.component';                    //? button component
+import Button, { BUTTON_TYPE_CLASSES } from '../button/button.component';                    //? button component
 
 const ProductCard = ({ product }) => {                              //? 'product' value will be provided by ProductsContext
 
@@ -17,14 +19,14 @@ const ProductCard = ({ product }) => {                              //? 'product
     const addProductToCart = () => addItemToCart(product);          //? updates cart context when 'Add to cart' button is clicked
 
     return (
-        <div className='product-card-container'>
+        <ProductCardContainer>
             <img src={imageUrl} alt={`${name}`} />
-            <div className='footer'>
-                <span className='name'>{name}</span>
-                <span className='price'>{price}$</span>
-            </div>
-            <Button buttonType='inverted'onClick={addProductToCart}>Add to cart</Button>
-        </div>
+            <Footer>
+                <Name>{name}</Name>
+                <Price>{price}$</Price>
+            </Footer>
+            <Button buttonType={BUTTON_TYPE_CLASSES.inverted} onClick={addProductToCart}>Add to cart</Button>
+        </ProductCardContainer>
     )
 };
 
